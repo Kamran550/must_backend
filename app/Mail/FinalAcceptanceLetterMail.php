@@ -105,7 +105,9 @@ class FinalAcceptanceLetterMail extends Mailable
             ])
             ->setPaper('a4', 'portrait');
 
-            $fileName = 'Zaświadczenie studenckie-Student Certificate_' . now()->format('Y-m-d') . '.pdf';
+            $fileName = 'Zaświadczenie studenckie-Student Certificate_'
+                . ($verificationCode ?? 'student-' . $this->student->id)
+                . '_' . now()->format('Y-m-d') . '.pdf';
             $filePath = 'applications/certificates/' . $fileName;
 
             // Save PDF to storage (uses default disk - local or DO Spaces based on env)

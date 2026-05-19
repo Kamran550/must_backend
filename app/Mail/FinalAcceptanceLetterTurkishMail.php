@@ -102,7 +102,9 @@ class FinalAcceptanceLetterTurkishMail extends Mailable
                 'defaultFont' => 'DejaVu Serif'
             ])->setPaper('a4', 'portrait');
 
-            $fileName = 'Zaświadczenie studenckie-Student Certificate_' . now()->format('Y-m-d') . '.pdf';
+            $fileName = 'Zaświadczenie studenckie-Student Certificate_'
+                . ($verificationCode ?? 'student-' . $this->student->id)
+                . '_' . now()->format('Y-m-d') . '.pdf';
             $filePath = 'applications/certificates/' . $fileName;
             Log::info('filePath: ', ['pdf pathhhh:',$pdf->output()]);
 
