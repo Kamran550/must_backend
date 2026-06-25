@@ -444,7 +444,7 @@
 
     <!-- Top Accent Line -->
     <div class="header-top-accent"></div>
-{{ now()->format('d/m/Y') }}
+    {{ now()->format('d/m/Y') }}
     <!-- Header -->
     <div class="header-wrapper">
         <div class="ref-number">
@@ -480,9 +480,14 @@
                             'MUST-' . $student->id . '-' . now()->format('Ymd');
                         $barcodeBase64 = '';
                         try {
-                $barcodePng = (new \Picqer\Barcode\BarcodeGeneratorPNG())
-                    ->getBarcode($barcodeCode, \Picqer\Barcode\BarcodeGenerator::TYPE_CODE_128, 1, 22, [26, 39, 68]);
-                $barcodeBase64 = base64_encode($barcodePng);
+                            $barcodePng = new \Picqer\Barcode\BarcodeGeneratorPNG()->getBarcode(
+                                $barcodeCode,
+                                \Picqer\Barcode\BarcodeGenerator::TYPE_CODE_128,
+                                1,
+                                22,
+                                [26, 39, 68],
+                            );
+                            $barcodeBase64 = base64_encode($barcodePng);
                         } catch (\Throwable $e) {
                             // fallback - barcode hidden
                         }
@@ -494,7 +499,7 @@
                         </div>
                     @endif
                     <div class="date-text">{{ now()->format('d/m/Y') }}
-</div>
+                    </div>
                 </td>
             </tr>
         </table>
@@ -543,7 +548,8 @@
                 </tr>
                 <tr>
                     <td class="label-col">Jednostka akademicka / Academic unit</td>
-                    <td class="value-col">Instytut Studiów Podyplomowych (Międzynarodowy) / Institute of Graduate
+                    <td class="value-col">Instytut {{ $degreeNamePl }} (Międzynarodowy) / Institute of
+                        {{ $degreeNameEn }}
                         Education (Multinational)</td>
                 </tr>
                 <tr>
@@ -570,7 +576,7 @@
                 <tr>
                     <td class="label-col">Data rejestracji / Registration date</td>
                     <td class="value-col">{{ now()->format('d/m/Y') }}
-</td>
+                    </td>
                 </tr>
                 <tr>
                     <td class="label-col">Rok akademicki / Academic year</td>
