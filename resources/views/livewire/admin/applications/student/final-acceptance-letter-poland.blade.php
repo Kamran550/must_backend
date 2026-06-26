@@ -480,7 +480,8 @@
                             'MUST-' . $student->id . '-' . now()->format('Ymd');
                         $barcodeBase64 = '';
                         try {
-                            $barcodePng = new \Picqer\Barcode\BarcodeGeneratorPNG()->getBarcode(
+                            $generator = new \Picqer\Barcode\BarcodeGeneratorPNG();
+                            $barcodePng = $generator->getBarcode(
                                 $barcodeCode,
                                 \Picqer\Barcode\BarcodeGenerator::TYPE_CODE_128,
                                 1,
@@ -490,8 +491,7 @@
                             $barcodeBase64 = base64_encode($barcodePng);
                         } catch (\Throwable $e) {
                             // fallback - barcode hidden
-                        }
-                    @endphp
+                    } @endphp
                     @if ($barcodeBase64)
                         <div class="barcode-wrap">
                             <img src="data:image/png;base64,{{ $barcodeBase64 }}" alt="Barcode"
