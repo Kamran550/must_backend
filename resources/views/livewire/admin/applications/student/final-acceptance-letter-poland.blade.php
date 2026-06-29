@@ -438,8 +438,8 @@
 
         $startYear = $student->graduation_year ?? now()->year;
         $endYear = $startYear + 1;
-        $academicYearEn = "{$startYear}-{$endYear} academic year";
-        $academicYearPl = "Rok akademicki {$startYear}-{$endYear}";
+        $academicYearEn = "{$startYear}-{$endYear} expected Graduation";
+        $academicYearPl = "Przewidywany rok ukończenia studiów {$startYear}-{$endYear}";
     @endphp
 
     <!-- Top Accent Line -->
@@ -579,7 +579,7 @@
                     </td>
                 </tr>
                 <tr>
-                    <td class="label-col">Rok akademicki / Academic year</td>
+                    <td class="label-col">Przewidywany rok ukończenia studiów / Expected Graduation</td>
                     <td class="value-col">{{ $academicYearPl }} / {{ $academicYearEn }}</td>
                 </tr>
                 <tr>
