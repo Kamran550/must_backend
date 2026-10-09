@@ -183,11 +183,18 @@
 
             <div>
                 @php
-                    $barcodeCode = trim($student->student_number ?? $student->application_number ?? '') ?: ('MUST-' . $student->id . '-' . now()->format('Ymd'));
+                    $barcodeCode =
+                        trim($student->student_number ?? ($student->application_number ?? '')) ?:
+                        'MUST-' . $student->id . '-' . now()->format('Ymd');
                     $barcodeBase64 = '';
                     try {
-                        $barcodePng = (new \Picqer\Barcode\BarcodeGeneratorPNG())
-                            ->getBarcode($barcodeCode, \Picqer\Barcode\BarcodeGenerator::TYPE_CODE_128, 1, 22, [26, 39, 68]);
+                        $barcodePng = new \Picqer\Barcode\BarcodeGeneratorPNG()->getBarcode(
+                            $barcodeCode,
+                            \Picqer\Barcode\BarcodeGenerator::TYPE_CODE_128,
+                            1,
+                            22,
+                            [26, 39, 68],
+                        );
                         $barcodeBase64 = base64_encode($barcodePng);
                     } catch (\Throwable $e) {
                         // fallback - barcode hidden
@@ -240,7 +247,7 @@
                 $startYear = $applicationDate->format('Y');
                 $endYear = $startYear + 1;
             @endphp
-            {{ $startYear }}–{{ $endYear }} akademik yılı için Avrupa Uluslararası Barış Üniversitesi
+            {{ $startYear }}–{{ $endYear }} akademik yılı için MAZOVYA BİLİM və TEKNOLOJİ ÜNİVERSİTESİ
             bünyesinde
             {{ tr_upper($student->application->program?->degree?->getName('TR') ?? ($student->application->program?->degree?->name ?? 'N/A')) }}
             {{ tr_upper($student->application->program?->getName('TR') ?? ($student->application->program?->name ?? 'N/A')) }}
