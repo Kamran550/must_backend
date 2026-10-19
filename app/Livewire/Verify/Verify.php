@@ -3,6 +3,7 @@
 namespace App\Livewire\Verify;
 
 use Illuminate\Support\Facades\Storage;
+use App\Enums\DocumentTypeEnum;
 use App\Models\DocumentVerification;
 use Livewire\Attributes\Layout;
 use Livewire\Component;
@@ -22,7 +23,7 @@ class Verify extends Component
     {
         // Check if verification code is provided in query parameter (for QR code scanning)
         $queryCode = request()->query('verificationcode');
-        
+
         if ($queryCode) {
             $this->verificationCode = strtoupper(trim($queryCode));
             // Automatically verify if code is provided in URL
@@ -53,7 +54,7 @@ class Verify extends Component
         }
 
         $this->application = $application;
-        
+
         $this->message = 'Verification successful!';
         $this->messageType = 'success';
     }
@@ -64,11 +65,18 @@ class Verify extends Component
             return null;
         }
 
+        // Payment receipts are never shown on the public verify page
+        if ($this->application->document_type === DocumentTypeEnum::PAYMENT) {
+            return null;
+        }
+
+
         if (!Storage::exists($this->application->file_path)) {
             return null;
         }
 
-        return Storage::url($this->application->file_path);
+        // return Storage::url($this->application->file_path);
+        return route('verify.document', ['code' => $this->application->verification_code]);
     }
 
     public function render()
@@ -76,4 +84,3 @@ class Verify extends Component
         return view('livewire.verify.verify');
     }
 }
-
